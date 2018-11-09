@@ -15,6 +15,9 @@ public:
     void add_edge(int v,int w);
 
     void BFS(int s);
+
+    void DFS(int v);
+    void DFS_UTIL(int v,bool visited[]);
 };
 
 Graph::Graph(int v){
@@ -54,6 +57,25 @@ void Graph::BFS(int s){
     }
 }
 
+void Graph::DFS(int v){
+    bool *visited=new bool[v];
+    for(int i=0;i<v;i++) visited[i]=false;
+    cout<<"DFS: "<<" ";
+
+    DFS_UTIL(v,visited);
+}
+
+void Graph::DFS_UTIL(int v,bool visited[]){
+    visited[v]=true;
+    cout<<v<<" ";
+    vector<int>::iterator i;
+    for(i=adj[v].begin();i!=adj[v].end();++i){
+        if(!visited[*i]){
+            DFS_UTIL(*i,visited);
+        }
+    }
+}
+
 int main(){
     Graph g(10);
     g.add_edge(1,2);
@@ -71,5 +93,5 @@ int main(){
     g.add_edge(10,5);
     
     g.BFS(1);
-    
+    g.DFS(1);
 }
