@@ -1,27 +1,63 @@
-#include <climits>
-#include <cstdio>
+#include<iostream>
 
-int matrix_chain_order(int p[], int n){
-    int i,j,k,l,q;
-    int m[n][n];
-    for(i=1;i<n;i++) m[i][i]=0;
-    for(l=2;l<n;l++){
-        for(i=1;i<n-l+1;i++){
-            j=i+l-1;
-            m[i][j]=INT_MAX;
-            for(k=i;k<=j-1;k++){
-                q=m[i][k]+m[k+1][j]+p[i-1]*p[k]*p[j];
-                if(q<m[i][j]) m[i][j]=q;
+using namespace std;
+ 
+ 
+ void inorder(int s[][5],int l,int h)
+ {
+ 	if(s[l][h]!=0)
+ 	{
+ 		cout<<"(";
+	 	inorder(s,l,s[l][h]);
+	 }
+	if(s[l][h]==0)
+	{
+	 		cout<<"A"<<s[l][h+1];
+	}
+		 if(s[l][h]!=0)
+		 {
+		 
+		 inorder(s,s[l][h]+1,h);
+		
+		 cout<<")";
+	 }
+ }
+ 
+ 
+
+ 
+ 
+int main()
+{
+    int n=5,i;
+    int p[]={5,4,6,2,7};
+    int m[5][5]={0};
+    int s[5][5]={0};
+    
+    int j,q;
+ 
+    for (int d=1; d<n-1; d++)
+    {
+        for (int i=1; i<n-d; i++)
+        {
+            j = i+d;
+            int min = 32767;  
+            int k;
+            for (k=i; k<=j-1; k++)
+            {
+                q = m[i][k] + m[k+1][j] + p[i-1]*p[k]*p[j];
+                if (q < min)
+                {
+                min=q;
+                }
             }
+                m[i][j] = q;
+		        s[i][j] =k;   
         }
     }
-    return m[1][n-1];
+ 
+    cout<<m[1][n-1]<<" ";
+    inorder(s,1,4);
+	
+    return 0;
 }
-int main() 
-{ 
-    int arr[] = {1, 2, 3, 4}; 
-    int size = sizeof(arr)/sizeof(arr[0]); 
-  
-    printf("Minimum number of multiplications is %d ", matrix_chain_order(arr, size)); 
-  
-} 
